@@ -1,0 +1,48 @@
+{
+  "name": "nyrex",
+  "productName": "Nyrex",
+  "version": "1.0.0",
+  "description": "Nyrex — a desktop AI assistant with optional live web search.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "^30.0.9",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.nyrex.app",
+    "productName": "Nyrex",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "public/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "assets/icon.png"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "assets/icon.png"
+    }
+  }
+}

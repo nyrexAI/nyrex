@@ -1,0 +1,47 @@
+name: Build Windows EXE
+
+# Runs automatically whenever you push to main, or you can trigger it by hand
+# from the "Actions" tab ("Run workflow" button). Pushing a version tag like
+# "v1.0.0" also publishes the .exe to a public Release page so anyone can
+# download it with a single click, no GitHub account required.
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the Windows installer
+        run: npm run build:win
+
+      - name: Upload the .exe as a build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nyrex-windows-installer
+          path: dist/*.exe
+
+      - name: Publish to a GitHub Release (only for version tags)
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
