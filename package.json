@@ -3,6 +3,7 @@
   "productName": "Nyrex",
   "version": "1.0.0",
   "description": "Nyrex — a desktop AI assistant with optional live web search.",
+  "author": "Nyrex",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
